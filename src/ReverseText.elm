@@ -37,8 +37,16 @@ view : Model -> Html Msg
 view model =
     div []
         [ input [ placeholder "Text to reverse", value model.content, onInput Change ][]
-        , div [] [ text (String.reverse model.content)]
-        , div [] [ text (String.repeat 3 model.content)]
-        , div [] [ text (String.replace " " "-" model.content) ]
-        , div [] [ text (String.append "ABC" model.content)]
+        , div myStyle [ text (String.reverse model.content)]
+        , div myStyle [ text (String.repeat 3 model.content)]
+        , div myStyle [ text (String.replace " " "-" model.content) ]
+        , div myStyle [ text (String.append "ABC" model.content)]
         ]
+
+myStyle =
+    [ style "width" "100%"
+    , style "height" "40px"
+    , style "padding" "10px 0"
+    , style "font-size" "2em"
+    , style "text-align" "center"
+    ]
