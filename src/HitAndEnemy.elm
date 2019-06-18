@@ -48,7 +48,7 @@ init =
 
 -- update
 
-type Msg = WaiAttack | EnemyAttack
+type Msg = WaiAttack | EnemyAttack | MagicWaiAttack | MagicEnemyAttack
 
 update : Msg -> Model -> Model
 update msg model =
@@ -60,10 +60,24 @@ update msg model =
             in
             { model | enemy = attackedEnemy }
 
+        MagicWaiAttack ->
+            let 
+                attackedEnemy =
+                    attack model.enemy model.wai.magicAttackPoint
+            in
+            { model | enemy = attackedEnemy }
+
         EnemyAttack ->
             let
                 attackedWai =
                     attack model.wai model.enemy.offensivePoint
+            in
+            { model | wai = attackedWai }
+
+        MagicEnemyAttack ->
+            let
+                attackedWai =
+                    attack model.wai model.enemy.magicAttackPoint
             in
             { model | wai = attackedWai }
 
@@ -77,7 +91,7 @@ view model =
             , div [] [ text ("AttackPower: " ++ String.fromInt model.wai.offensivePoint)]
             , div [] [ text ("MagicPower: " ++ String.fromInt model.wai.magicAttackPoint)]
             , button [ onClick WaiAttack] [ text "Attack"]
-            , button [ onClick WaiAttack] [ text "Magic Attack"]
+            , button [ onClick MagicWaiAttack] [ text "Magic Attack"]
             ]
         , li []
             [ div [] [ text model.enemy.name ]
@@ -86,7 +100,7 @@ view model =
             , div [] [ text ("AttackPower: " ++ String.fromInt model.enemy.offensivePoint)]
             , div [] [ text ("MagicPower: " ++ String.fromInt model.enemy.magicAttackPoint)]
             , button [ onClick EnemyAttack] [ text "Attack"]
-            , button [ onClick EnemyAttack] [ text "Magic Attack"]
+            , button [ onClick MagicEnemyAttack] [ text "Magic Attack"]
             ]
         ]
 
